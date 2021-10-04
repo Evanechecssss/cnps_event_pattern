@@ -1,0 +1,13 @@
+{
+    "MYEVENT": {
+        "name": "my_event",
+        "args": {
+            "value1": 0,
+            "value2": "",
+            "npc": null,
+            "API": null,
+            "npc2": null
+        },
+        "description": "This event is event , so you can use this event)"
+    }
+}
