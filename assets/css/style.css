@@ -1,0 +1,121 @@
+body{
+  margin: 0;
+  font-family: 'PT Serif','sans-serif';
+  background: black;
+  font-size: 14pt;
+  line-height: 1.6;
+
+}
+*,*:before,*:after{
+  box-sizing: border-box;
+}
+h1,h2,h3,h4,h5,h6{
+  margin: 0;
+}
+/*Container*/
+.container{
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/*Intro*/
+.intro{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
+  height: 100vh;
+  background: url("../images/intro.jpg") center, no-repeat;
+  -webkit-background-size:cover;
+  background-size:cover;
+  text-align: center;
+
+}
+.intro__suptitle{
+  font-family:  'Koh Santepheap','cursive';
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: white;
+}
+.intro_btn{
+  display: inline-block;
+  vertical-align: top;
+  padding: 8px 30px;
+  border: 3px solid white;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+  transition: box-shadow 0.2s linear;
+}
+.intro_btn:hover{
+    box-shadow: inset 0 0 6px;
+}
+.intro__title{
+  font-size: 150px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: white;
+}
+/* Header */
+.header{
+  padding top: 30px;
+  position: absolute;
+  width: 100%
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+}
+.header__inner{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+.header__logo{
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Nav */
+.nav{
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.nav__link{
+  color: white;
+  position: relative;
+  text-decoration: none;
+  text-shadow: #9E0D00 1px 0 10px;
+  transition: color 0.2s linear;
+  transition: text-shadow 0.2s linear;
+}
+.nav__link:hover:after{
+  color: white;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  background: url("../images/mlog.png") center, no-repeat;
+
+  top: 100%;
+  left: 0;
+  z-index: 1;
+
+}
+.nav__link:hover{
+  color: red;
+  text-shadow: black 1px 0 10px;
+}
