@@ -5,7 +5,9 @@
  */
 
 /* CODE */
+function init() {
 
+}
 /**
  * String constants
  */
@@ -124,6 +126,7 @@ function SEND_TO_PLAYERS(event, players) {
  */
 function SEND_TO_NPCS(event, npcs) {
     sendToEntities(npcs, event)
+
 }
 /**
  * 
