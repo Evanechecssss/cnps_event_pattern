@@ -11,39 +11,60 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@100;300;400;700;900&display=swap"
         rel="stylesheet">
-    <title>CUSTOM NPC EVENT PATTERN</title>
-    <link rel="stylesheet" href="assets//css/style.css">
+    <title>CUSTOM NPC HOSTER API</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header__inner">
-                <div class="header__logo">
-                    Event pattern to custom npc
+    <div class="main" id = "main">
+        <script>
+            var backgrounds = [
+              "url(assets/images/backgrounds/b0.jpg) top center no-repeat",
+              "url(assets/images/backgrounds/b1.jpg) top center no-repeat",
+              "url(assets/images/backgrounds/b2.jpg) top center no-repeat",
+              "url(assets/images/backgrounds/b3.jpg) top center no-repeat",
+              "url(assets/images/backgrounds/b4.jpg) top center no-repeat"
+            ];
+            document.getElementById("main").style.background = backgrounds[Math.floor(Math.random() * ((backgrounds.length-1) - 0 + 1)) + 0];
+        </script>
+        <header class="header">
+            <div class="container">
+                <div class="header__inner">
+                    <nav class="nav">
+                        <a href="https://bio.link/evanechecssss" class="nav__link">author</a>
+                        <a href="https://vk.com/customnpcforever" class="nav__link">vk group for mappers</a>
+                        <a href="https://discord.gg/csPJ5pgNTk" class="nav__link">discord group for scripters</a>
+                        <a href="https://github.com/Evanechecssss" class="nav__link">git hub</a>
+                    </nav>
                 </div>
-                <nav class="nav">
-                    <a href="https://bio.link/evanechecssss" class="nav__link">authors</a>
-                    <a href="https://vk.com/customnpcforever" class="nav__link">vk group for mappers</a>
-                    <a href="https://discord.gg/csPJ5pgNTk" class="nav__link">discord group for scripters</a>
-                    <a href="https://github.com/Evanechecssss" class="nav__link">git hub</a>
-                </nav>
+            </div>
+        </header>
+        <div class="intro">
+            <div class="container">
+                <br>
+                <br>
+                <br>
+                <h1 class="intro__suptitle">EVANECHECSSSS PRESENT!</h1>
+                <br>
+                <h1 class="intro__title">WELCOME TO TUTORIAL HOW TO USE API!</h1>
+                <br>
+                <a class="intro_btn" href="#info">More</a>
+                <p id="info" class="info">
+                    START_EXECUTION() - запускает алгоритм выполнения по умолчанию<br>
+                    DOWNLOAD_ASSETS() - скачать необходимые ресурсы<br>
+                    UNZIP() - распоковать ресурсы<br>
+                    runFileFromPath() - запустить файл из пути. Вы сможете запустить необходимые вам .bat файлы, которые смогут развернуть паразит хостинг
+                    В двльнейшем добавится работа с базой данных и сервером напрямую, для получения данных и отпарвка их на хостингируемый (ахуеть, новое слово придумал) сервер
+                </p>
             </div>
         </div>
-    </header>
-    <div class="intro">
-        <div class="container">
-            <h1 class="intro__suptitle">EVANECHECSSSS PRESENT!</h1>
-            <h1 class="intro__title">WELCOME TO TUTORIAL HOW TO USE PATTERN!</h1>
-            <a class="intro_btn" href="#learn__more">More</a>
+        <div class="links">
+           <div class="link__kirkus">
+                <a href="https://bio.link/kirkus"><img class="link__kirkus__image" src="assets/images/links/kirkus.png" alt="Kirkus" width="100px" height="100px"></a>
+            </div>
+
+    
         </div>
-    </div>
-    <div class="statistick">
-        <a href="#hoook">Как это использовать? А хуй знает, сам не знаю, я же не хуй...</a>
-        <span>
-            Создайте в своём мире папку custom_events, поместите туда все файлы из каталога. Файл eventAPI.js положите в
-            папку мира со скриптами, после вы сможете вызвать его методы, если подключите его.
-        </span>
     </div>
 </body>
 
