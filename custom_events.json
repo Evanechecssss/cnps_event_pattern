@@ -1,57 +1,13 @@
-{   
-    "pain": {
-        "name": "pain",
+{
+    "MYEVENT": {
+        "name": "my_event",
         "args": {
-            "value1": 0
+            "value1": 0,
+            "value2": "",
+            "npc": null,
+            "API": null,
+            "npc2": null
         },
-        "description": "Этот ивент используется для удаления потерянных душ при смерти элементаля боли"
-    },
-    "del": {
-        "name": "del",
-        "args": {
-            "value1": 0
-        },
-        "description": "Этот ивент используется для удаления мобов"
-    },
-    "ghost": {
-        "name": "ghost",
-        "args": {
-            "value1": 0
-        },
-        "description": "Этот ивент используется для активации режима призрака"
-    },
-    "injury": {
-        "name": "injury",
-        "args": {
-            "gun": "0",
-            "harm": 0,
-            "distant": 0,
-            "player_name": "0"
-        },
-        "description": "Этот ивент используется для нанесения урона по нпс"
-    },
-    "set_tempdata": {
-        "name": "set_tempdata",
-        "args": {
-            "phase": 0
-        },
-        "description": "Этот ивент используется для записи данных нпс в темпдату"
-    },
-	"archvile": {
-        "name": "archvile",
-        "args": {
-            "uuid": "0"
-        },
-        "description": "Этот ивент используется для записи мобов архивиля"
-    },
-    "new_fog": {
-        "name": "new_fog",
-        "args": {
-            "red": 0,
-			"green": 0,
-			"blue": 0,
-			"density": 0
-        },
-        "description": "Этот ивент используется для плавного градиента тумана"
+        "description": "This event is event , so you can use this event)"
     }
 }
