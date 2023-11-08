@@ -45,6 +45,7 @@ var MCPlayer = Java.type("net.minecraft.entity.player.EntityPlayer") //Is main P
 var MCNPC = Java.type("noppes.npcs.entity.EntityNPCInterface") //Is main npc class
 var PLAYER_DATA = Java.type("noppes.npcs.controllers.data.PlayerData") //Is class of player data
 var TILE_SCRIPTED = Java.type("noppes.npcs.blocks.tiles.TileScripted") //Is main tile block class
+var TILE_SCRIPTED_DOOR = Java.type("noppes.npcs.blocks.tiles.TileScriptedDoor") //Is scripteddoor tile class
 var BLOCK_WRAPPER = Java.type("noppes.npcs.api.wrapper.BlockWrapper") //Is main block class
 var JSTRING = Java.type("java.lang.String") //Is class for string formating
 /**
@@ -63,6 +64,19 @@ function EVENT_LIST() {
         print(strEventDescription + EVENTS[key][eventDescription])
         print(strEventConstructor + objToJSON(EVENTS[key][eventArgs]))
     }
+}
+/**
+ * If you will run it, tutorial site will be opened in your browser
+ */
+function TUTORIAL() {
+    try {
+        var file = new JFILE(DIR.resolve(fileTutorialName))
+        DESKTOP.getDesktop().browse(file.toURI())
+    }
+    catch (err) {
+        throw new NPCException(exceptionTutorial)
+    }
+
 }
 /**
  * 
@@ -120,7 +134,6 @@ function SEND_TO_PLAYERS(event, players) {
  */
 function SEND_TO_NPCS(event, npcs) {
     sendToEntities(npcs, event)
-
 }
 /**
  * 
@@ -131,19 +144,15 @@ function SEND_TO_BLOCKS(event, blocks) {
     sendToBlocks(event, blocks)
 }
 
+function SEND_TO_XYZ_BLOCK(event, x, y, z) {
+    var block = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getBlock(x, y, z)
+    privateSend(block, event)
+}
+
 /**
  * Methods for only extened users
  */
 
-/**
- * 
- * Old data from json primitive will be raplaced with new values.
- * The given from .Jeson primitive will be populated with the new object data. Data not specified in the new object will be the default data, the name of the fields of the 'value object' event is not important at all, the fields of the event of the primitive are important
- * 
- * @param {Object} def - default object
- * @param {Object} val - value object
- * @returns default object with new values
- */
 function replaceNewData(def, val) {
     var returnedDef = def
     if (Object.keys(returnedDef).length != Object.keys(val).length) {
@@ -154,10 +163,6 @@ function replaceNewData(def, val) {
     }
     return returnedDef
 }
-/**
- * 
- * @returns json file with events as object
- */
 function jsonObjectGet() {
     var file
     var reader
@@ -179,70 +184,50 @@ function jsonObjectGet() {
     }
     return obj
 }
-/**
- * 
- * @param {Object} object 
- * @returns  JSON String from object
- */
+
 function objToJSON(object) {
     return JSON.stringify(object, null, 4)
 }
 
-/**
- * 
- * @param {INSTANCE()} event 
- */
 function sendToAllEntity(event) {
-    var npcs = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(1).getAllEntities(2)
+    var npcs = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getAllEntities(2)
     sendToEntities(npcs, event)
 }
-/**
- * 
- * @param {INSTANCE()} event 
- */
+
 function sendToAllPlayers(event) {
-    var players = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(1).getAllPlayers()
+    var players = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getAllPlayers()
     sendToEntities(players, event)
 }
-/**
- * 
- * @param {INSTANCE()} event 
- * @param {BLOCKS[]} blocks 
- */
+
 function sendToBlocks(event, blocks) {
     for (var index = 0; index < blocks.length; index++) {
         privateSend(blocks[index], event)
     }
 }
-/**
- * 
- * @param {ENTITIES[]} entities
- * @param {INSTANCE()} event 
- */
+
 function sendToEntities(entities, event) {
     for (var index = 0; index < entities.length; index++) {
         privateSend(entities[index].getMCEntity(), event)
     }
 }
-/**
- * P.S: noppes level genius: name class with Interface suffix
- * @param {CustomNPCInterface} npc 
- * @returns scripts from npc
- */
+
 function getScriptsFromNPC(npc) {
     return npc.script
 }
+
 function getScriptsFromPlayer(player) {
     return PLAYER_DATA.get(player).scriptData
 }
+
 function getScriptsFromBlock(block) {
     var mcTile = block.getMCTileEntity()
-    if (mcTile instanceof TILE_SCRIPTED) {
+    if (mcTile instanceof TILE_SCRIPTED || mcTile instanceof TILE_SCRIPTED_DOOR) {
         return mcTile;
     } else {
         throw new NPCException(JSTRING.format(exceptionTileEntity, mcTile.toString()))
     }
 }
+
 function privateSend(mcEntity, event) {
     var data;
     if (mcEntity instanceof MCPlayer) {
@@ -254,11 +239,11 @@ function privateSend(mcEntity, event) {
     } else {
         throw new NPCException(JSTRING.format(exceptionCorrect, mcEntity.toString()))
     }
-    privateCallMethodsFromScripts(scripts.getScripts(), event)
+    privateCallMethodsFromScripts(data.getScripts(), event)
 }
 
-function privateCallMethodsFromScripts(scripts, event) {
-    for (var i = 0; i < scripts.length; i++) {
-        scripts[i].run(event[eventName], event[eventArgs])
+function privateCallMethodsFromScripts(data, event) {
+    for (var i = 0; i < data.length; i++) {
+        data[i].run(event[eventName], event[eventArgs])
     }
 }
