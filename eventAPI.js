@@ -66,19 +66,6 @@ function EVENT_LIST() {
     }
 }
 /**
- * If you will run it, tutorial site will be opened in your browser
- */
-function TUTORIAL() {
-    try {
-        var file = new JFILE(DIR.resolve(fileTutorialName))
-        DESKTOP.getDesktop().browse(file.toURI())
-    }
-    catch (err) {
-        throw new NPCException(exceptionTutorial)
-    }
-
-}
-/**
  * 
  * @param name of event, you can to know it, if you call EVENT_LIST()
  * @return default instance of this event
@@ -143,7 +130,13 @@ function SEND_TO_NPCS(event, npcs) {
 function SEND_TO_BLOCKS(event, blocks) {
     sendToBlocks(event, blocks)
 }
-
+/**
+ * 
+ * @param event , you can get it with INSTANCE(name, args)
+ * @param x , the x coordinate of the block
+ * @param y , the y coordinate of the block
+ * @param z , the z coordinate of the block
+ */
 function SEND_TO_XYZ_BLOCK(event, x, y, z) {
     var block = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getBlock(x, y, z)
     privateSend(block, event)
@@ -153,6 +146,15 @@ function SEND_TO_XYZ_BLOCK(event, x, y, z) {
  * Methods for only extened users
  */
 
+/**
+ * 
+ * Old data from json primitive will be raplaced with new values.
+ * The given from .Jeson primitive will be populated with the new object data. Data not specified in the new object will be the default data, the name of the fields of the 'value object' event is not important at all, the fields of the event of the primitive are important
+ * 
+ * @param {Object} def - default object
+ * @param {Object} val - value object
+ * @returns default object with new values
+ */
 function replaceNewData(def, val) {
     var returnedDef = def
     if (Object.keys(returnedDef).length != Object.keys(val).length) {
@@ -163,6 +165,10 @@ function replaceNewData(def, val) {
     }
     return returnedDef
 }
+/**
+ * 
+ * @returns json file with events as object
+ */
 function jsonObjectGet() {
     var file
     var reader
@@ -184,41 +190,62 @@ function jsonObjectGet() {
     }
     return obj
 }
-
+/**
+ * 
+ * @param {Object} object 
+ * @returns  JSON String from object
+ */
 function objToJSON(object) {
     return JSON.stringify(object, null, 4)
 }
 
+/**
+ * 
+ * @param {INSTANCE()} event 
+ */
 function sendToAllEntity(event) {
-    var npcs = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getAllEntities(2)
+    var npcs = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(1).getAllEntities(2)
     sendToEntities(npcs, event)
 }
-
+/**
+ * 
+ * @param {INSTANCE()} event 
+ */
 function sendToAllPlayers(event) {
-    var players = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getAllPlayers()
+    var players = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(1).getAllPlayers()
     sendToEntities(players, event)
 }
-
+/**
+ * 
+ * @param {INSTANCE()} event 
+ * @param {BLOCKS[]} blocks 
+ */
 function sendToBlocks(event, blocks) {
     for (var index = 0; index < blocks.length; index++) {
         privateSend(blocks[index], event)
     }
 }
-
+/**
+ * 
+ * @param {ENTITIES[]} entities
+ * @param {INSTANCE()} event 
+ */
 function sendToEntities(entities, event) {
     for (var index = 0; index < entities.length; index++) {
         privateSend(entities[index].getMCEntity(), event)
     }
 }
-
+/**
+ * P.S: noppes level genius: name class with Interface suffix
+ * @param {CustomNPCInterface} npc 
+ * @returns scripts from npc
+ */
 function getScriptsFromNPC(npc) {
     return npc.script
 }
-
 function getScriptsFromPlayer(player) {
     return PLAYER_DATA.get(player).scriptData
 }
-
 function getScriptsFromBlock(block) {
     var mcTile = block.getMCTileEntity()
     if (mcTile instanceof TILE_SCRIPTED || mcTile instanceof TILE_SCRIPTED_DOOR) {
@@ -227,7 +254,6 @@ function getScriptsFromBlock(block) {
         throw new NPCException(JSTRING.format(exceptionTileEntity, mcTile.toString()))
     }
 }
-
 function privateSend(mcEntity, event) {
     var data;
     if (mcEntity instanceof MCPlayer) {
@@ -242,8 +268,8 @@ function privateSend(mcEntity, event) {
     privateCallMethodsFromScripts(data.getScripts(), event)
 }
 
-function privateCallMethodsFromScripts(data, event) {
-    for (var i = 0; i < data.length; i++) {
-        data[i].run(event[eventName], event[eventArgs])
+function privateCallMethodsFromScripts(scripts, event) {
+    for (var i = 0; i < scripts.length; i++) {
+        scripts[i].run(event[eventName], event[eventArgs])
     }
 }
