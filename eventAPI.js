@@ -45,6 +45,7 @@ var MCPlayer = Java.type("net.minecraft.entity.player.EntityPlayer") //Is main P
 var MCNPC = Java.type("noppes.npcs.entity.EntityNPCInterface") //Is main npc class
 var PLAYER_DATA = Java.type("noppes.npcs.controllers.data.PlayerData") //Is class of player data
 var TILE_SCRIPTED = Java.type("noppes.npcs.blocks.tiles.TileScripted") //Is main tile block class
+var TILE_SCRIPTED_DOOR = Java.type("noppes.npcs.blocks.tiles.TileScriptedDoor") //Is scripteddoor tile class
 var BLOCK_WRAPPER = Java.type("noppes.npcs.api.wrapper.BlockWrapper") //Is main block class
 var JSTRING = Java.type("java.lang.String") //Is class for string formating
 /**
@@ -120,7 +121,6 @@ function SEND_TO_PLAYERS(event, players) {
  */
 function SEND_TO_NPCS(event, npcs) {
     sendToEntities(npcs, event)
-
 }
 /**
  * 
@@ -129,6 +129,17 @@ function SEND_TO_NPCS(event, npcs) {
  */
 function SEND_TO_BLOCKS(event, blocks) {
     sendToBlocks(event, blocks)
+}
+/**
+ * 
+ * @param event , you can get it with INSTANCE(name, args)
+ * @param x , the x coordinate of the block
+ * @param y , the y coordinate of the block
+ * @param z , the z coordinate of the block
+ */
+function SEND_TO_XYZ_BLOCK(event, x, y, z) {
+    var block = Java.type("noppes.npcs.api.NpcAPI").Instance().getIWorld(0).getBlock(x, y, z)
+    privateSend(block, event)
 }
 
 /**
@@ -237,7 +248,7 @@ function getScriptsFromPlayer(player) {
 }
 function getScriptsFromBlock(block) {
     var mcTile = block.getMCTileEntity()
-    if (mcTile instanceof TILE_SCRIPTED) {
+    if (mcTile instanceof TILE_SCRIPTED || mcTile instanceof TILE_SCRIPTED_DOOR) {
         return mcTile;
     } else {
         throw new NPCException(JSTRING.format(exceptionTileEntity, mcTile.toString()))
@@ -254,7 +265,7 @@ function privateSend(mcEntity, event) {
     } else {
         throw new NPCException(JSTRING.format(exceptionCorrect, mcEntity.toString()))
     }
-    privateCallMethodsFromScripts(scripts.getScripts(), event)
+    privateCallMethodsFromScripts(data.getScripts(), event)
 }
 
 function privateCallMethodsFromScripts(scripts, event) {
